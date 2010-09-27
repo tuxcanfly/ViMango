@@ -1,0 +1,6 @@
+Install:
+
+* Put vimango.vim in $VIMRUNTIME/plugin
+
+Go to a urls.py line and press <F2> to go to the view
+
