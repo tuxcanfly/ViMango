@@ -2,5 +2,18 @@ Install:
 
 * Put vimango.vim in $VIMRUNTIME/plugin
 
-Go to a urls.py line and press <F2> to go to the view
+Press <F2> on any urls.py line:
+
+  * `r'^url/$', 'app.views.func', ...`
+      will take you to `func` in app/views.py
+
+  * `r'^app$', include('app.urls'), ...`
+      will take you to app/urls.py
+
+  * `r'index', direct_to_template, {'template_name': 'app/index.html'}, ...`
+      will take you to templates/app/index.html
+
+All this without depending on django project. No settings are imported and no django modules used.
+
+Have fun!
 

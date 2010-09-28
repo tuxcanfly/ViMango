@@ -37,6 +37,5 @@ def get_view_from_url():
 
 EOF
 
-"map <F2> :python get_view_from_url()<CR>jf
-map <F2> :python get_view_from_url()
+map <F2> :python get_view_from_url()<CR>jf
 
