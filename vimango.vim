@@ -4,7 +4,15 @@
 " Description:   Django project navigation helper
 "                Currently supports navigating to view
 "                from urls
-"
+" License:	     This file is licensed under BSD License
+
+let s:save_cpo = &cpo
+set cpo&vim
+
+if exists("loaded_vimango")
+    finish
+endif
+let loaded_vimango = 1
 
 if !exists('g:vimango_app_prefix')
     let g:vimango_app_prefix = ''
@@ -25,15 +33,22 @@ def get_view_from_url():
         vim_grep_cmd = "open %s%s" %(vim.eval('g:vimango_template_prefix'), template)
     else:
         parsed = parse_type.split("'")[1]
-        try:
-            app, views, func = parsed.split('.')
-            vim_grep_cmd = "vimgrep /def " + func + "/g " + vim.eval('g:vimango_app_prefix') + app + "/" + views + ".py"
-        except ValueError:
+        num_dots = parsed.count(".")
+        if num_dots == 0:
+            #vim_grep_cmd = "open " + parsed
+            app = vim.current.buffer.name.split('/')[-2]
+            vim_grep_cmd = "vimgrep /def " + parsed + "/g " + app + "/" + "views.py"
+        elif num_dots == 1:
             app, urls = parsed.split('.')
             vim_grep_cmd = "open " + vim.eval('g:vimango_app_prefix') + app + "/" + urls + ".py"
+        elif num_dots == 2:
+            app, views, func = parsed.split('.')
+            vim_grep_cmd = "vimgrep /def " + func + "/g " + vim.eval('g:vimango_app_prefix') + app + "/" + views + ".py"
     vim.command(vim_grep_cmd)
 
 EOF
 
 map <F2> :python get_view_from_url()<CR>j
+
+let &cpo = s:save_cpo
 
