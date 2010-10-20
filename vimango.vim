@@ -18,6 +18,10 @@ if !exists('g:vimango_app_prefix')
     let g:vimango_app_prefix = ''
 endif
 
+if !exists('g:vimango_open_cmd')
+    let g:vimango_open_cmd = 'tabnew'
+endif
+
 if !exists('g:vimango_template_prefix')
     let g:vimango_template_prefix = 'templates'
 endif
@@ -30,17 +34,16 @@ def get_view_from_url():
     parse_type = line.split(',')[1]
     if parse_type.strip() == 'direct_to_template':
         template = line.split(',')[2].split(":")[1].strip().replace("\"", "").rstrip("}")
-        vim_grep_cmd = "open %s%s" %(vim.eval('g:vimango_template_prefix'), template)
+        vim_grep_cmd = "%s %s%s" %(vim.eval('g:vimango_open_cmd'), vim.eval('g:vimango_template_prefix'), template)
     else:
         parsed = parse_type.split("'")[1]
         num_dots = parsed.count(".")
         if num_dots == 0:
-            #vim_grep_cmd = "open " + parsed
             app = vim.current.buffer.name.split('/')[-2]
             vim_grep_cmd = "vimgrep /def " + parsed + "/g " + app + "/" + "views.py"
         elif num_dots == 1:
             app, urls = parsed.split('.')
-            vim_grep_cmd = "open " + vim.eval('g:vimango_app_prefix') + app + "/" + urls + ".py"
+            vim_grep_cmd = vim.eval('g:vimango_open_cmd') + vim.eval('g:vimango_app_prefix') + app + "/" + urls + ".py"
         elif num_dots == 2:
             app, views, func = parsed.split('.')
             vim_grep_cmd = "vimgrep /def " + func + "/g " + vim.eval('g:vimango_app_prefix') + app + "/" + views + ".py"

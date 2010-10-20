@@ -2,7 +2,7 @@ Install:
 
 * Put vimango.vim in $VIMRUNTIME/plugin
 
-Press `<F2>` on any urls.py line:
+Pressing `<F2>` on any urls.py line:
 
   * `r'^url/$', 'app.views.func', ...`  
       will take you to `func` in app/views.py
