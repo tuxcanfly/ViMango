@@ -43,7 +43,7 @@ def get_view_from_url():
             vim_grep_cmd = "vimgrep /def " + parsed + "/g " + app + "/" + "views.py"
         elif num_dots == 1:
             app, urls = parsed.split('.')
-            vim_grep_cmd = vim.eval('g:vimango_open_cmd') + vim.eval('g:vimango_app_prefix') + app + "/" + urls + ".py"
+            vim_grep_cmd = vim.eval('g:vimango_open_cmd') + " " + vim.eval('g:vimango_app_prefix') + app + "/" + urls + ".py"
         elif num_dots == 2:
             app, views, func = parsed.split('.')
             vim_grep_cmd = "vimgrep /def " + func + "/g " + vim.eval('g:vimango_app_prefix') + app + "/" + views + ".py"
