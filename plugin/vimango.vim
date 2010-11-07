@@ -26,32 +26,57 @@ if !exists('g:vimango_template_prefix')
     let g:vimango_template_prefix = 'templates'
 endif
 
-python << EOF
+python << endpython
+import vim
+import re
+
+def get_view_prefix():
+    ''' Return the view prefix or None '''
+    # Find the pattern
+    b = vim.current.buffer
+    w = vim.current.window
+    (line, col) = w.cursor
+    while (line > 0):
+        l = b[line]
+        match = re.search("patterns\([\'\"]([\w\.]*)[\'\"]", l)
+        if match is not None:
+            # Found a patterns line
+            prefix = match.groups()[0]
+            return prefix
+        line = line - 1
+    return None
 
 def get_view_from_url():
-    import vim
     line = vim.current.line
     parse_type = line.split(',')[1]
     if parse_type.strip() == 'direct_to_template':
         template = line.split(',')[2].split(":")[1].strip().replace("\"", "").rstrip("}")
         vim_grep_cmd = "%s %s%s" %(vim.eval('g:vimango_open_cmd'), vim.eval('g:vimango_template_prefix'), template)
+    elif parse_type.strip().startswith('include'):
+        view_func = parse_type.split("'")[1]
+        app, urls = view_func.split('.')
+        vim_grep_cmd = vim.eval('g:vimango_open_cmd') + " " + vim.eval('g:vimango_app_prefix') + app + "/" + urls + ".py"
     else:
-        parsed = parse_type.split("'")[1]
-        num_dots = parsed.count(".")
-        if num_dots == 0:
-            app = vim.current.buffer.name.split('/')[-2]
-            vim_grep_cmd = "vimgrep /def " + parsed + "/g " + app + "/" + "views.py"
-        elif num_dots == 1:
-            app, urls = parsed.split('.')
-            vim_grep_cmd = vim.eval('g:vimango_open_cmd') + " " + vim.eval('g:vimango_app_prefix') + app + "/" + urls + ".py"
+        prefix = get_view_prefix()
+        view_func = parse_type.split("'")[1]
+        if prefix is not None and prefix is not '':
+            view_func = prefix + '.' + view_func
+        view_func_split = view_func.split('.')
+        site_name = vim.current.buffer.name.split('/')[-2]
+        if site_name == view_func_split[0]:
+            view_func = '.'.join(view_func_split[1:])
+        num_dots = view_func.count(".")
+        if num_dots == 1:
+            views, func = view_func.split('.')
+            vim_grep_cmd = "vimgrep /def " + func + "/g " + vim.eval('g:vimango_app_prefix') + views + ".py"
         elif num_dots == 2:
-            app, views, func = parsed.split('.')
+            app, views, func = view_func.split('.')
             vim_grep_cmd = "vimgrep /def " + func + "/g " + vim.eval('g:vimango_app_prefix') + app + "/" + views + ".py"
     vim.command(vim_grep_cmd)
 
-EOF
+endpython
 
-map <F2> :python get_view_from_url()<CR>j
+map <F3> :python get_view_from_url()<CR>j
 
 let &cpo = s:save_cpo
 
