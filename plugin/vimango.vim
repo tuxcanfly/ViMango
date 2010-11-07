@@ -26,7 +26,7 @@ if !exists('g:vimango_template_prefix')
     let g:vimango_template_prefix = 'templates'
 endif
 
-python << endpython
+python << EOF
 import vim
 import re
 
@@ -74,9 +74,9 @@ def get_view_from_url():
             vim_grep_cmd = "vimgrep /def " + func + "/g " + vim.eval('g:vimango_app_prefix') + app + "/" + views + ".py"
     vim.command(vim_grep_cmd)
 
-endpython
+EOF
 
-map <F3> :python get_view_from_url()<CR>j
+map <F2> :python get_view_from_url()<CR>j
 
 let &cpo = s:save_cpo
 
