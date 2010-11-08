@@ -23,7 +23,7 @@ if !exists('g:vimango_open_cmd')
 endif
 
 if !exists('g:vimango_template_prefix')
-    let g:vimango_template_prefix = 'templates'
+    let g:vimango_template_prefix = 'templates/'
 endif
 
 python << EOF
