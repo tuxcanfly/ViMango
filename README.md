@@ -1,6 +1,7 @@
 Install:
 
 * Put vimango.vim in $VIMRUNTIME/plugin
+* Put vimango.py in $PYTHONPATH
 
 Pressing `<F2>` on any urls.py line:
 
