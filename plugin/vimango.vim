@@ -48,7 +48,7 @@ def main():
 
 EOF
 
-noremap gO :python main()<CR>j
+noremap gO :python main()<CR>jzz
 
 let &cpo = s:save_cpo
 
