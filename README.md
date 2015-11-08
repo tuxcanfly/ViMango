@@ -17,10 +17,10 @@ keymap is `gO` on any urls.py line:
   * `r'index', direct_to_template, {'template_name': 'app/index.html'}, ...`  
       will take you to templates/app/index.html
 
-only work good with str style of view at one line
+only work good with str style of view at one line  
 so, django and web.py's url can be parsed.
 
-No settings are imported and no django modules used.
+No settings are imported and no django modules used.  
 see the source, for more detail.
 
 Have fun!
