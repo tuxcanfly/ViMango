@@ -1,9 +1,9 @@
 Install:
 
-* Put vimango.vim in $VIMRUNTIME/plugin
+* Put vimango.vim in $VIMRUNTIME/plugin  
     using vundle would be better
 
-* Put vimango.py in $PYTHONPATH
+* Put vimango.py in $PYTHONPATH  
     e.g. sudo ln -sf ~/.vim/bundle/ViMango/plugin/vimango.py /usr/local/lib/python2.7/dist-packages/vimango.py
 
 keymap is `gO` on any urls.py line:
