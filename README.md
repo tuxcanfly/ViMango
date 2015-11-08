@@ -21,7 +21,7 @@ only work good with str style of view at one line
 so, django and web.py's url can be parsed.
 
 No settings are imported and no django modules used.  
-see the source, for more detail.
+see the source, for more detail.  
 
-Have fun!
+combine with youcompleteme, would be more convenient!
 
