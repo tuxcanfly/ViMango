@@ -1,9 +1,12 @@
 Install:
 
-* Put vimango.vim in $VIMRUNTIME/plugin
-* Put vimango.py in $PYTHONPATH
+* Put vimango.vim in $VIMRUNTIME/plugin  
+    using vundle would be better
 
-Pressing `<F2>` on any urls.py line:
+* Put vimango.py in $PYTHONPATH  
+    e.g. sudo ln -sf ~/.vim/bundle/ViMango/plugin/vimango.py /usr/local/lib/python2.7/dist-packages/vimango.py
+
+keymap is `gO` on any urls.py line:
 
   * `r'^url/$', 'app.views.func', ...`  
       will take you to `func` in app/views.py
@@ -14,7 +17,11 @@ Pressing `<F2>` on any urls.py line:
   * `r'index', direct_to_template, {'template_name': 'app/index.html'}, ...`  
       will take you to templates/app/index.html
 
-No settings are imported and no django modules used.
+only work good with str style of view at one line  
+so, django and web.py's url can be parsed.
 
-Have fun!
+No settings are imported and no django modules used.  
+see the source, for more detail.  
+
+combine with youcompleteme, would be more convenient!
 

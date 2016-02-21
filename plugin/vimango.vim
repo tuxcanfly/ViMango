@@ -48,7 +48,7 @@ def main():
 
 EOF
 
-map <F2> :python main()<CR>j
+nnoremap gO :python main()<CR>
 
 let &cpo = s:save_cpo
 
