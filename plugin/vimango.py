@@ -1,4 +1,5 @@
 def get_view_from_url(line, settings):
+    jzz = ' | normal jzz'
     def file_grep_wrapper(file_grep):
         import os
         is_file = os.path.exists(file_grep)
@@ -8,7 +9,7 @@ def get_view_from_url(line, settings):
         return file_grep
 
     def get_vim_cmd(func, file_grep):
-        return settings['grep'] + " /\(def\|class\) \+" + func + "/g " + file_grep_wrapper(file_grep)
+        return settings['grep'] + " /\(def\|class\) \+" + func + "/g " + file_grep_wrapper(file_grep) + jzz
 
     def find_quote(oneline):
         for an_alpha in oneline:
@@ -28,20 +29,23 @@ def get_view_from_url(line, settings):
         import re
         template = re.sub('''('|"|}\)?$)''', '', line.split(',')[2].split(':')[1].strip())
         file_grep = '%s%s%s' % (settings['apps'], settings['templates'], template)
-        vim_cmd = '%s %s' %(settings['open'], file_grep_wrapper(file_grep))
+        vim_cmd = '%s %s%s' %(settings['open'], file_grep_wrapper(file_grep), jzz)
         del re
     else:
         parse_list = parse_type.split(find_quote(parse_type))
-        parsed = parse_list[1]
+        try:
+            parsed = parse_list[1]
+        except:
+            return "echo 'can not find the view. Is it a str wrapped by quote?'"
         num_dots = parsed.count(".")
         if num_dots == 0:
             app = settings['buffer']
-            vim_cmd = settings['grep'] + " /\(def\|class\) \+" + parsed + "/g " + app + "/" + "views.py"
+            vim_cmd = settings['grep'] + " /\(def\|class\) \+" + parsed + "/g " + app + "/" + "views.py" + jzz
         elif num_dots == 1:
             app_or_views, urls_or_func = parsed.split('.')
             if 'include(' in parse_list[0]:
                 file_grep = settings['apps'] + app_or_views + "/" + urls_or_func + ".py"
-                vim_cmd = settings['open'] + " " + file_grep_wrapper(file_grep)
+                vim_cmd = settings['open'] + " " + file_grep_wrapper(file_grep) + jzz
             else:
                 file_grep = settings['apps'] + app_or_views + ".py"
                 vim_cmd = get_vim_cmd(urls_or_func, file_grep)
